@@ -107,7 +107,7 @@ const jsonLd = {
   <header id="header" slot="header" class="site-header" data-rec="U-R002,U-R005">
     <div class="container header__in">
       <a class="logo" href="#top" aria-label="Реалайв, на початок сторінки">
-        <img src="/logo.svg" width="79" height="66" alt="Реабілітаційний центр «Реалайв»" />
+        <img src={`${(import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + "/")}logo.svg`} width="79" height="66" alt="Реабілітаційний центр «Реалайв»" />
       </a>
       <nav class="nav" aria-label="Головне меню">
         <ul>
@@ -429,7 +429,7 @@ const jsonLd = {
   <footer id="footer" slot="footer" class="site-footer night" data-rec="U-R010,U-R005">
     <div class="container footer__grid">
       <a class="footer__logo" href="#top" aria-label="Реалайв, на початок сторінки">
-        <img src="/logo.svg" width="79" height="66" alt="Реабілітаційний центр «Реалайв»" loading="lazy" />
+        <img src={`${(import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + "/")}logo.svg`} width="79" height="66" alt="Реабілітаційний центр «Реалайв»" loading="lazy" />
       </a>
       <nav class="footer__nav" aria-label="Розділи сторінки">
         <ul>

@@ -1,0 +1,83 @@
+---
+// Шкала доби: 24 клітинки (або `cells`), заповнені діапазони годин. Смисл завжди продубльовано текстом поруч;
+// сама шкала — role="img" з aria-label.
+interface Shift { from: number; to: number; label: string; }
+interface Props {
+  label: string;
+  ranges?: [number, number][];
+  cells?: number;
+  tone?: "brand" | "signal";
+  hours?: boolean;
+  shifts?: Shift[];
+  /** load — заповнення при завантаженні (перший екран); enter — при вході в екран */
+  animate?: "load" | "enter" | false;
+  size?: "lg" | "md";
+  class?: string;
+}
+const {
+  label, ranges = [[0, 24]], cells = 24, tone = "brand", hours = false, shifts = [],
+  animate = false, size = "md", class: cls,
+} = Astro.props;
+const isOn = (h: number) => ranges.some(([a, b]) => h >= a && h < b);
+let k = 0;
+const items = Array.from({ length: cells }, (_, h) => {
+  const on = isOn(h);
+  return { on, i: on ? k++ : 0 };
+});
+---
+<div
+  class:list={["dayscale", `dayscale--${tone}`, `dayscale--${size}`, animate && `dayscale--${animate}`, cls]}
+  data-fill={animate === "enter" ? "" : undefined}
+  style={`--cells:${cells}`}
+>
+  {shifts.length > 0 && (
+    <div class="dayscale__shifts" aria-hidden="true">
+      {shifts.map((s) => <span style={`grid-column:${s.from + 1} / ${s.to + 1}`}>{s.label}</span>)}
+    </div>
+  )}
+  <div class="dayscale__cells" role="img" aria-label={label}>
+    {items.map((c) => <span class:list={["cell", c.on && "on"]} style={c.on ? `--i:${c.i}` : undefined}></span>)}
+  </div>
+  {hours && (
+    <div class="dayscale__hours" aria-hidden="true">
+      <span style="grid-column:1">0</span>
+      <span style="grid-column:7">6</span>
+      <span style="grid-column:13">12</span>
+      <span style="grid-column:19">18</span>
+      <span class="end" style="grid-column:24">24</span>
+    </div>
+  )}
+</div>
+
+<style>
+  .dayscale { --h: 14px; display: grid; gap: var(--s-1); min-width: 0; }
+  .dayscale--lg { --h: 12px; }
+  @media (min-width: 600px) { .dayscale--lg { --h: 20px; } .dayscale--md { --h: 18px; } }
+  .dayscale__cells,
+  .dayscale__hours,
+  .dayscale__shifts { display: grid; grid-template-columns: repeat(var(--cells), minmax(0, 1fr)); column-gap: var(--cell-gap); }
+  .cell { display: block; height: var(--h); border-radius: 2px; background: var(--color-empty); }
+  .dayscale--brand .cell.on { background: var(--color-brand); }
+  .dayscale--signal .cell { background: var(--color-night-raise); }
+  .dayscale--signal .cell.on { background: var(--color-accent); }
+  .dayscale__hours { font-size: var(--fs-small); color: var(--color-muted); font-variant-numeric: tabular-nums lining-nums; line-height: 1; }
+  .dayscale__hours .end { justify-self: end; }
+  .dayscale__shifts { font-size: var(--fs-small); font-weight: 600; color: var(--color-brand); line-height: 1.2; }
+  .dayscale__shifts span { min-width: 0; white-space: nowrap; }
+  @media (max-width: 767px) { .dayscale__shifts { display: none; } }
+
+  /* Ефект 1: заповнення шкали на першому екрані (24 × 22 мс, кожна клітинка 180 мс) */
+  .dayscale--load .cell.on { transform-origin: 50% 100%; animation: cell-fill 180ms var(--ease-out) both; animation-delay: calc(var(--i) * 12ms); }
+  @media (min-width: 600px) { .dayscale--load .cell.on { animation-delay: calc(var(--i) * 22ms); } }
+  @keyframes cell-fill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+  /* Ефект 2: заповнення змін і курсу при вході в екран (лише коли працюють скрипти) */
+  .dayscale--enter .cell.on { transform-origin: 0 50%; transition: transform 240ms var(--ease-out); transition-delay: calc(var(--i) * 15ms); }
+  :global(.js) .dayscale--enter:not(.is-filled) .cell.on { transform: scaleX(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dayscale--load .cell.on { animation: none; }
+    .dayscale--enter .cell.on { transition: none; }
+    :global(.js) .dayscale--enter:not(.is-filled) .cell.on { transform: none; }
+  }
+</style>

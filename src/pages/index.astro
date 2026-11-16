@@ -1,0 +1,457 @@
+---
+// Головна «Реалайв» за design/concept.md: «Відновлення, виміряне добою».
+import { Picture, getImage } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import DayScale from "../components/DayScale.astro";
+import FutureLink from "../components/FutureLink.astro";
+import Icon from "../components/Icon.astro";
+
+import imgHero from "../assets/photos/zanyattya-fizio.jpg";
+import imgRoom from "../assets/photos/palata-1.jpg";
+import imgRoom2 from "../assets/photos/palata-2.jpg";
+import imgGym from "../assets/photos/zal-fizio.jpg";
+import imgYard from "../assets/photos/podvirrya.jpg";
+import imgTeam from "../assets/photos/komanda.jpg";
+import imgEntrance from "../assets/photos/vhid.jpg";
+
+const PHONE = { href: "tel:+380680075447", text: "+38 068 007 54 47" };
+const PHONE2 = { href: "tel:+380951023448", text: "+38 095 102 34 48" };
+const WA = "https://wa.me/+380680075447";
+const TG = "https://telegram.me/Realive_center";
+const EMAIL = "realiveod@gmail.com";
+const ADDRESS = "Мукачівський провулок, 6, Одеса, 65000";
+const MAP = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`;
+const LICENSE = "Наказ МОЗ № 1491 від 26.09.2025 «Про ліцензування медичної практики»";
+const SOCIALS = [
+  { name: "Instagram", icon: "instagram" as const, href: "https://www.instagram.com/realive_centr/" },
+  { name: "Facebook", icon: "facebook" as const, href: "https://www.facebook.com/realieveod/" },
+  { name: "YouTube", icon: "youtube" as const, href: "https://www.youtube.com/@realive-center3481" },
+];
+const NAV = [
+  { href: "#directions", text: "Напрямки" },
+  { href: "#prices", text: "Ціни" },
+  { href: "#stay", text: "Проживання" },
+  { href: "#team", text: "Команда" },
+  { href: "#contacts", text: "Контакти" },
+];
+const CONDITIONS = ["інсульту", "черепно-мозкової травми", "травми хребта", "операцій", "переломів", "перелому шийки стегна"];
+const STATIONARY = [
+  { name: "Базовий", price: "3 190", sessions: 2, note: "2 заняття на день" },
+  { name: "Оптимальний", price: "3 590", sessions: 4, note: "4 заняття на день" },
+  { name: "Максимальний прогрес", price: "3 890", sessions: 6, note: "6 занять на день" },
+];
+const AMBULATORY = [
+  { name: "Базовий", price: "550", note: "Денний стаціонар" },
+  { name: "Оптимальний", price: "900", note: "Денний стаціонар" },
+  { name: "Максимум", price: "1 600", note: "Програма" },
+];
+const INCLUDED = [
+  "Проживання",
+  "Лікарський супровід і медичні маніпуляції",
+  "Механотерапія",
+  "Триразове харчування",
+  "Супровід 28 днів після виписки",
+  "Книга «Як ми перемогли інсульт» і особиста зустріч з автором",
+];
+const STAY_FACTS = [
+  "Номери на 1, 2 і 3 місця",
+  "Функціональні ліжка, TV, інтернет, система виклику персоналу",
+  "Харчування тричі на день",
+  "Адаптовані санвузли, окремі зали для занять",
+  "Цілодобовий догляд",
+  "Відвідування рідними без обмежень",
+];
+const ROLES = [
+  "Невролог вищої категорії",
+  "Лікар фізичної та реабілітаційної медицини",
+  "Фізичні терапевти",
+  "Ерготерапевти",
+  "Терапевти мови та мовлення",
+  "Нейропсихолог",
+  "Медсестри",
+  "Супроводжуючі осіб з інвалідністю",
+];
+
+const heroWidths = [480, 720, 876];
+const heroSizes = "(min-width: 1080px) 840px, 100vw";
+const heroPreload = await getImage({ src: imgHero, format: "avif", widths: heroWidths, sizes: heroSizes });
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MedicalClinic",
+  name: "Реабілітаційний центр «Реалайв»",
+  address: { "@type": "PostalAddress", streetAddress: "Мукачівський провулок, 6", addressLocality: "Одеса", postalCode: "65000", addressCountry: "UA" },
+  telephone: ["+380680075447", "+380951023448"],
+  email: EMAIL,
+  openingHours: "Mo-Su 00:00-23:59",
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    opens: "00:00",
+    closes: "23:59",
+  },
+  sameAs: SOCIALS.map((s) => s.href),
+};
+---
+<Base
+  lang="uk"
+  rec="U-R006,P-R008,P-R003,SEO-R001,SEO-R004,SEO-R018"
+  title="Реабілітація після інсульту в Одесі — центр «Реалайв» 24/7"
+  description="Стаціонар з проживанням цілодобово і денний стаціонар в Одесі: після інсульту, травм, операцій. Від 3 190 грн за добу. Ліцензія МОЗ. Тел. +38 068 007 54 47"
+>
+  <Fragment slot="head">
+    <link rel="preload" as="image" type="image/avif" media="(min-width: 1080px)" imagesrcset={heroPreload.srcSet.attribute} imagesizes={heroSizes} fetchpriority="high" data-rec="P-R001" />
+    <script type="application/ld+json" data-rec="SEO-R005,S-R011" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
+  <header id="header" slot="header" class="site-header" data-rec="U-R002,U-R005">
+    <div class="container header__in">
+      <a class="logo" href="#top" aria-label="Реалайв, на початок сторінки">
+        <img src="/logo.svg" width="79" height="66" alt="Реабілітаційний центр «Реалайв»" />
+      </a>
+      <nav class="nav" aria-label="Головне меню">
+        <ul>
+          {NAV.map((n) => <li><a href={n.href}>{n.text}</a></li>)}
+        </ul>
+      </nav>
+      <div class="header__contact">
+        <a class="header__phone" href={PHONE.href}>
+          <span class="header__num">{PHONE.text}</span>
+          <span class="header__cap">Адміністрація</span>
+        </a>
+        <a class="icon-btn" href={WA} aria-label="Написати у WhatsApp"><Icon name="whatsapp" /></a>
+        <a class="icon-btn" href={TG} aria-label="Написати в Telegram"><Icon name="telegram" /></a>
+      </div>
+      <div class="header__mobile">
+        <a class="icon-btn" href={PHONE.href} aria-label={`Подзвонити адміністрації ${PHONE.text}`}><Icon name="phone" /></a>
+        <button class="icon-btn burger" type="button" popovertarget="menu" aria-label="Відкрити меню"><Icon name="menu" /></button>
+      </div>
+    </div>
+    <div id="menu" class="menu" popover>
+      <div class="menu__top">
+        <span class="menu__title">Меню</span>
+        <button class="icon-btn icon-btn--night" type="button" popovertarget="menu" popovertargetaction="hide" aria-label="Закрити меню"><Icon name="close" /></button>
+      </div>
+      <nav aria-label="Меню розділів">
+        <ul class="menu__list">
+          {NAV.map((n) => <li><a href={n.href}>{n.text}</a></li>)}
+        </ul>
+      </nav>
+      <div class="menu__actions">
+        <a class="btn btn--call" href={PHONE.href}><Icon name="phone" /><span class="btn__stack"><span>Подзвонити</span><span class="btn__num">{PHONE.text}</span></span></a>
+        <a class="btn btn--line-night" href={WA}><Icon name="whatsapp" />WhatsApp</a>
+        <a class="btn btn--line-night" href={TG}><Icon name="telegram" />Telegram</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- 1. Перший екран -->
+  <section id="hero" class="hero" aria-labelledby="hero-title" data-rec="U-R001,U-R008,G-R005,MA-R005">
+    <div class="container">
+      <h1 id="hero-title" class="hero__title">Реабілітація після інсульту та травм в Одесі — цілодобово</h1>
+      <div class="hero__scale">
+        <DayScale label="Цілодобово: 24 години з 24" size="lg" animate="load" />
+        <p class="hero__scale-cap">Медсестри й супроводжуючі поруч 24 години на добу</p>
+      </div>
+      <div class="hero__grid">
+        <div class="hero__act">
+          <a class="btn btn--call btn--xl" href={PHONE.href} data-rec="U-R002">
+            <Icon name="phone" />
+            <span class="btn__stack"><span>Подзвонити адміністрації</span><span class="btn__num">{PHONE.text}</span></span>
+          </a>
+          <div class="hero__alt">
+            <a class="btn btn--line" href={WA}><Icon name="whatsapp" />Написати у WhatsApp</a>
+            <a class="text-link" href={TG}>Telegram</a>
+          </div>
+          <ul class="trust" aria-label="Коротко про центр">
+            <li><strong>Ліцензія МОЗ</strong> на медичну практику, наказ № 1491 від 26.09.2025</li>
+            <li><strong>Від 3&nbsp;190 грн</strong> за добу в стаціонарі</li>
+            <li class="trust__extra"><strong>Стаціонар і денний стаціонар</strong> в одному центрі</li>
+          </ul>
+        </div>
+        <figure class="hero__photo photo" data-rec="P-R001,P-R002,SEO-R014">
+          <Picture
+            src={imgHero}
+            formats={["avif", "webp"]}
+            widths={heroWidths}
+            sizes={heroSizes}
+            alt="Фізичний терапевт центру страхує пацієнтку під час вправи на балансувальній платформі"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Напрямки -->
+  <section id="directions" class="directions" aria-labelledby="directions-title" data-rec="U-R004">
+    <div class="container">
+      <h2 id="directions-title" class="directions__sentence">
+        Відновлюємо після {CONDITIONS.map((c, i) => (
+          <Fragment><FutureLink class="fl-cond">{c}</FutureLink>{i < CONDITIONS.length - 1 ? ", " : " "}</Fragment>
+        ))}і <FutureLink class="fl-cond">COVID-19</FutureLink>
+      </h2>
+      <div class="directions__foot">
+        <p class="directions__ask">
+          Не знайшли свій випадок? Безкоштовна консультація в центрі або з виїздом:
+          <a class="text-link text-link--num" href={PHONE.href}>{PHONE.text}</a>
+        </p>
+        <p class="directions__meta">
+          У програмах: фізична терапія, механотерапія, ерготерапія, кінезітерапія, відновлення мови, індивідуальне ортезування.
+          <span class="directions__links"><FutureLink>Методи</FutureLink> <FutureLink>Протипоказання</FutureLink></span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Формати: дві шкали доби (signature) -->
+  <section id="formats" class="formats band" aria-labelledby="formats-title">
+    <div class="container">
+      <h2 id="formats-title" class="h2">Цілодобово чи на зміну</h2>
+      <div class="format">
+        <div class="format__text">
+          <h3 class="h3">Стаціонар з проживанням</h3>
+          <p>Пацієнт живе в центрі, догляд цілодобово, номери на 1, 2 і 3 місця.</p>
+        </div>
+        <DayScale class="format__scale" label="Стаціонар: 24 години з 24" hours animate="enter" />
+        <div class="format__price">
+          <p><span class="figure-s">від 3&nbsp;190</span> грн за добу</p>
+          <a class="text-link" href="#prices-stationary" data-tab="0">Ціни стаціонару</a>
+        </div>
+      </div>
+      <div class="format">
+        <div class="format__text">
+          <h3 class="h3">Денний стаціонар</h3>
+          <p>Приїжджаєте на заняття: дві зміни по 4 години, 9:00–13:00 і 14:00–18:00.</p>
+        </div>
+        <DayScale
+          class="format__scale"
+          label="Денний стаціонар: з 9:00 до 13:00 і з 14:00 до 18:00"
+          ranges={[[9, 13], [14, 18]]}
+          shifts={[{ from: 9, to: 13, label: "Зміна 1" }, { from: 14, to: 18, label: "Зміна 2" }]}
+          hours
+          animate="enter"
+        />
+        <div class="format__price">
+          <p><span class="figure-s">від 550</span> грн за день</p>
+          <a class="text-link" href="#prices-ambulatory" data-tab="1">Амбулаторні ціни</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Ціни -->
+  <section id="prices" class="prices" aria-labelledby="prices-title" data-rec="U-R003">
+    <div class="container">
+      <div class="prices__head">
+        <h2 id="prices-title" class="h2">Скільки коштує доба</h2>
+        <div class="tabs" role="tablist" aria-label="Формат реабілітації">
+          <button type="button" role="tab" id="tab-stationary" aria-controls="prices-stationary" aria-selected="true">Стаціонар</button>
+          <button type="button" role="tab" id="tab-ambulatory" aria-controls="prices-ambulatory" aria-selected="false" tabindex="-1">Амбулаторно</button>
+        </div>
+      </div>
+
+      <div class="prices__stack">
+        <div id="prices-stationary" class="panel is-active" role="tabpanel" aria-labelledby="tab-stationary">
+          <h3 class="panel__title">Стаціонар з проживанням</h3>
+          <ul class="plans">
+            {STATIONARY.map((p) => (
+              <li class="plan">
+                <h4 class="plan__name">{p.name}</h4>
+                <p class="plan__price"><span class="figure">{p.price}</span> <span class="plan__unit">грн за добу</span></p>
+                <span class="marks" aria-hidden="true">
+                  {Array.from({ length: 6 }, (_, i) => <span class:list={["mark", i < p.sessions && "on"]} style={`--i:${i}`}></span>)}
+                </span>
+                <p class="plan__note">{p.note}</p>
+              </li>
+            ))}
+          </ul>
+          <p class="prices__course">Курс 14, 21 або 28 днів. Після виписки 28 днів супроводу, це вже у вартості.</p>
+          <details class="included">
+            <summary>Що входить у вартість</summary>
+            <ul>
+              {INCLUDED.map((x) => <li>{x}</li>)}
+            </ul>
+          </details>
+        </div>
+
+        <div id="prices-ambulatory" class="panel" role="tabpanel" aria-labelledby="tab-ambulatory">
+          <h3 class="panel__title">Амбулаторно, денний стаціонар</h3>
+          <ul class="plans">
+            {AMBULATORY.map((p) => (
+              <li class="plan">
+                <h4 class="plan__name">{p.name}</h4>
+                <p class="plan__price"><span class="figure">{p.price}</span> <span class="plan__unit">грн за день</span></p>
+                <p class="plan__note">{p.note}</p>
+              </li>
+            ))}
+          </ul>
+          <p class="prices__course">Знижка 10&nbsp;% при оплаті від 10 днів. Зміни 9:00–13:00 і 14:00–18:00.</p>
+          <DayScale
+            class="prices__shifts"
+            label="Денний стаціонар: з 9:00 до 13:00 і з 14:00 до 18:00"
+            ranges={[[9, 13], [14, 18]]}
+            shifts={[{ from: 9, to: 13, label: "Зміна 1" }, { from: 14, to: 18, label: "Зміна 2" }]}
+            hours
+          />
+        </div>
+      </div>
+
+      <div class="prices__cta">
+        <a class="btn btn--call" href={PHONE.href}><Icon name="phone" /><span class="btn__stack"><span>Уточнити програму</span><span class="btn__num">{PHONE.text}</span></span></a>
+        <FutureLink>Усі ціни</FutureLink>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Проживання -->
+  <section id="stay" class="stay" aria-labelledby="stay-title" data-rec="U-R008,P-R002,SEO-R008,SEO-R014">
+    <div class="container">
+      <h2 id="stay-title" class="h2 stay__title">Де житиме ваш близький</h2>
+      <div class="stay__photos">
+        <figure class="photo stay__main">
+          <Picture src={imgRoom} formats={["avif", "webp"]} widths={[480, 760, 1080]} sizes="(min-width: 1080px) 740px, 100vw" alt="Номер центру з функціональним ліжком" loading="lazy" />
+          <figcaption>Номер з функціональним ліжком</figcaption>
+        </figure>
+        <figure class="photo stay__side">
+          <Picture src={imgGym} formats={["avif", "webp"]} widths={[400, 560, 840]} sizes="(min-width: 1080px) 520px, 50vw" alt="Зал для занять з тренажерами" loading="lazy" />
+          <figcaption>Зал для занять</figcaption>
+        </figure>
+        <figure class="photo stay__side">
+          <Picture src={imgYard} formats={["avif", "webp"]} widths={[400, 560, 840]} sizes="(min-width: 1080px) 520px, 50vw" alt="Подвір'я центру з деревами і доріжками" loading="lazy" />
+          <figcaption>Подвір'я</figcaption>
+        </figure>
+      </div>
+      <div class="stay__info">
+        <figure class="photo stay__room2">
+          <Picture src={imgRoom2} formats={["avif", "webp"]} widths={[360, 540, 720]} sizes="(min-width: 1080px) 400px, 40vw" alt="Номер з ліжком, столом і вікном" loading="lazy" />
+        </figure>
+        <div class="stay__facts">
+          <ul class="facts">
+            {STAY_FACTS.map((f) => <li>{f}</li>)}
+          </ul>
+          <a class="btn btn--line" href={SOCIALS[2].href} data-rec="S-R012"><Icon name="youtube" />Подивитися відео про центр</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Команда -->
+  <section id="team" class="team band" aria-labelledby="team-title" data-rec="U-R008">
+    <div class="container team__grid">
+      <figure class="photo team__photo">
+        <Picture src={imgTeam} formats={["avif", "webp"]} widths={[480, 720, 960]} sizes="(min-width: 1080px) 740px, 100vw" alt="Фахівчині центру «Реалайв» біля стіни з логотипом центру" loading="lazy" />
+      </figure>
+      <div class="team__text">
+        <h2 id="team-title" class="team__title"><span class="team__num">27</span> <span class="h2">фахівців поруч</span></h2>
+        <ul class="roles">
+          {ROLES.map((r) => <li>{r}</li>)}
+        </ul>
+        <p class="team__dir">Директор центру — фізичний терапевт Ковальчук П.&nbsp;М.</p>
+        <FutureLink>Уся команда</FutureLink>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Як проходить -->
+  <section id="process" class="process" aria-labelledby="process-title">
+    <div class="container">
+      <h2 id="process-title" class="h2">Від дзвінка до <span class="nowrap">28-го</span> дня після виписки</h2>
+      <ol class="course" data-fill>
+        <li class="course__step course__step--s">
+          <span class="course__cells" aria-hidden="true"><span class="cell on" style="--i:0"></span><span class="cell on" style="--i:1"></span></span>
+          <strong>Консультація</strong>
+          <span>Безкоштовно, в центрі або з виїздом</span>
+        </li>
+        <li class="course__step course__step--s">
+          <span class="course__cells" aria-hidden="true"><span class="cell on" style="--i:2"></span><span class="cell on" style="--i:3"></span></span>
+          <strong>Індивідуальна програма</strong>
+          <span>Реабілітація під ваш випадок</span>
+        </li>
+        <li class="course__step course__step--l">
+          <span class="course__cells course__cells--28" aria-hidden="true">
+            {Array.from({ length: 28 }, (_, i) => <span class:list={["cell on", (i === 13 || i === 20 || i === 27) && "tick"]} style={`--i:${i + 4}`}></span>)}
+          </span>
+          <span class="course__ticks" aria-hidden="true"><span style="grid-column:14">14</span><span style="grid-column:21">21</span><span style="grid-column:28">28</span></span>
+          <strong>Курс у центрі</strong>
+          <span>14, 21 або 28 днів</span>
+        </li>
+        <li class="course__step course__step--l">
+          <span class="course__cells course__cells--28 course__cells--outline" aria-hidden="true">
+            {Array.from({ length: 28 }, (_, i) => <span class="cell on" style={`--i:${i + 32}`}></span>)}
+          </span>
+          <strong>Супровід після виписки</strong>
+          <span>28 днів, входить у вартість стаціонару</span>
+        </li>
+      </ol>
+      <div class="process__foot">
+        <p class="process__motto">Пройдемо цей шлях разом.</p>
+        <FutureLink>Порядок бронювання місць</FutureLink>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Контакти -->
+  <section id="contacts" class="contacts night" aria-labelledby="contacts-title" data-rec="U-R010,U-R002,U-R008,SEO-R005">
+    <div class="container">
+      <h2 id="contacts-title" class="h2 contacts__title">Працюємо цілодобово</h2>
+      <DayScale label="Цілодобово: 24 години з 24" tone="signal" size="lg" class="contacts__scale" />
+      <div class="contacts__grid">
+        <div class="contacts__main">
+          <a class="contacts__phone" href={PHONE.href}>
+            <span class="contacts__num">{PHONE.text}</span>
+            <span class="contacts__cap">Адміністрація</span>
+          </a>
+          <a class="contacts__phone2" href={PHONE2.href}>
+            <span class="contacts__num2">{PHONE2.text}</span>
+            <span class="contacts__cap">Додатковий номер</span>
+          </a>
+          <div class="channels">
+            <a class="btn btn--call btn--night" href={PHONE.href}><Icon name="phone" />Подзвонити</a>
+            <a class="btn btn--line-night" href={WA}><Icon name="whatsapp" />WhatsApp</a>
+            <a class="btn btn--line-night" href={TG}><Icon name="telegram" />Telegram</a>
+            <a class="btn btn--line-night" href={`mailto:${EMAIL}`}><Icon name="mail" />{EMAIL}</a>
+          </div>
+        </div>
+        <div class="contacts__place">
+          <figure class="photo contacts__photo">
+            <Picture src={imgEntrance} formats={["avif", "webp"]} widths={[400, 600, 840]} sizes="(min-width: 1080px) 520px, 100vw" alt="Вхід до реабілітаційного центру «Реалайв» з вивіскою" loading="lazy" />
+          </figure>
+          <address class="contacts__addr">{ADDRESS}</address>
+          <a class="text-link text-link--night" href={MAP}><Icon name="map" />Відкрити на карті</a>
+          <p class="contacts__license">{LICENSE}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer" slot="footer" class="site-footer night" data-rec="U-R010,U-R005">
+    <div class="container footer__grid">
+      <a class="footer__logo" href="#top" aria-label="Реалайв, на початок сторінки">
+        <img src="/logo.svg" width="79" height="66" alt="Реабілітаційний центр «Реалайв»" loading="lazy" />
+      </a>
+      <nav class="footer__nav" aria-label="Розділи сторінки">
+        <ul>
+          {NAV.map((n) => <li><a href={n.href}>{n.text}</a></li>)}
+        </ul>
+      </nav>
+      <ul class="footer__future" aria-label="Сторінки повної версії">
+        <li><FutureLink>Історії пацієнтів</FutureLink></li>
+        <li><FutureLink>Про центр</FutureLink></li>
+        <li><FutureLink>Блог</FutureLink></li>
+        <li><FutureLink>Політика конфіденційності</FutureLink></li>
+      </ul>
+      <ul class="footer__social" data-rec="S-R010">
+        {SOCIALS.map((s) => <li><a href={s.href}><Icon name={s.icon} />{s.name}</a></li>)}
+      </ul>
+      <p class="footer__legal">Реабілітаційний центр «Реалайв», Одеса. {LICENSE}.</p>
+    </div>
+  </footer>
+
+  <div slot="after" class="callbar" data-rec="U-R002">
+    <a class="btn btn--call btn--night" href={PHONE.href}><Icon name="phone" />Подзвонити</a>
+    <a class="btn btn--line-night" href={WA}><Icon name="whatsapp" />WhatsApp</a>
+    <a class="btn btn--line-night" href={TG}><Icon name="telegram" />Telegram</a>
+  </div>
+</Base>

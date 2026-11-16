@@ -1,0 +1,7 @@
+---
+// Майбутня сторінка, якої ще немає в демо: неактивний елемент без href із підказкою.
+// Ніколи не веде на поточний сайт клієнта.
+interface Props { note?: string; class?: string; }
+const { note = "Розділ у розробці", class: cls } = Astro.props;
+---
+<span class:list={["future-link", cls]} role="link" aria-disabled="true" tabindex="0"><slot /><span class="future-link__note" aria-hidden="true">{note}</span><span class="visually-hidden"> ({note})</span></span>

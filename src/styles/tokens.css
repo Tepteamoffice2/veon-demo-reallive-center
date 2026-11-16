@@ -1,0 +1,53 @@
+/* Hallmark · shape: day-scale · genre: editorial · theme: custom · job: book · idea: "Відновлення, виміряне добою — шкала доби з 24 клітинок на кожному екрані" · vibe: "лавандові стіни центру, спокійний порядок доби" · paper: #F1F0F8 · accent: #79C044 · display: Sofia Sans Condensed · body: Ysabeau Office · hero: H1 на всю ширину, під ним шкала доби 24/24, дія ліворуч, фото заняття праворуч · nav: 5 anchors + labelled phone, night overlay menu and bottom call bar under 900px · footer: night band, menu, socials, licence · imagery: client photos · signature: дві шкали доби (24 з 24 проти двох змін по 4 години) і зелена шкала вночі поруч із номером · axes: light/display-condensed/chromatic-green · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery (phone photos 960–1280 px), capped at about 840 px wide, straight corners, no overlays */
+/* Hallmark · waive 82 · span.course__cells: 28 + 28 cells in #process · the cells are the concept's measuring device (idea: recovery measured in days), the numbers are set in type next to them (14, 21 або 28 днів; 28 днів супроводу) */
+/* Hallmark · waive 39b · a.btn 56–72px · concept §5: the call button carries the phone number in digits on a second line (U-I001), every contact channel is a 56px touch zone; marketing buttons without a number stay at 52px */
+/* Hallmark · answer 49 · .btn sets white-space: nowrap; long call labels are split into two nowrap lines (label + number) */
+/* Client design tokens from design/concept.md (veon-concept: colors, fonts). One token system; every colour and font goes through here. */
+:root {
+  /* palette (concept §8 «Дизайн-система для FULL») */
+  --color-bg: #F1F0F8;          /* paper: lavender walls of the centre */
+  --color-band: #E3E1F1;        /* day band */
+  --color-text: #1D1B45;        /* ink */
+  --color-muted: #55537A;       /* secondary text */
+  --color-brand: #33368F;       /* indigo: headings, filled cells, links, focus on light */
+  --color-accent: #79C044;      /* signal green: call button, cells at night, focus on dark */
+  --color-accent-ink: #1D1B45;  /* text on the green fill (7.3:1) */
+  --color-accent-strong: #6BAF38; /* hover of the call button (about 6% L darker) */
+  --color-empty: #C9C7E2;       /* empty cell, thin lines */
+  --color-night: #17163A;       /* contacts + footer */
+  --color-night-raise: #23225A; /* hover surface on night */
+  --color-on-night: #ECEBF7;
+  --color-on-night-muted: #B4B2D6;
+
+  --font-display: "Sofia Sans Condensed Variable", "Sofia Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Ysabeau Office Variable", "Ysabeau Office", system-ui, sans-serif;
+
+  /* type scale (1440 → 390) */
+  --fs-display: clamp(2.5rem, 1.6rem + 4.2vw, 5.5rem);
+  --fs-h2: clamp(2rem, 1.4rem + 2.4vw, 3.25rem);
+  --fs-figure: clamp(2.5rem, 1.9rem + 2vw, 3.5rem);
+  --fs-h3: clamp(1.375rem, 1.25rem + .5vw, 1.625rem);
+  --fs-lead: clamp(1.875rem, 1.2rem + 2.6vw, 3rem);
+  --fs-body: 1.0625rem;
+  --fs-small: .9375rem;
+
+  /* spacing, step 8 */
+  --s-1: .5rem; --s-2: 1rem; --s-3: 1.5rem; --s-4: 2.5rem; --s-5: 4rem; --s-6: 6.5rem; --s-7: 10.5rem;
+  --section-y: clamp(4rem, 2.6rem + 5.6vw, 10.5rem);
+
+  --radius: 4px;
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur: 600ms;
+  --dur-fast: 150ms;
+  --space: clamp(1.25rem, -.1rem + 4.2vw, 5rem);
+  --container: 1280px;
+  --cell-gap: 4px;
+  --header-h: 56px;
+}
+@media (min-width: 1080px) {
+  :root { --header-h: 72px; }
+}
+@media (max-width: 599px) {
+  :root { --cell-gap: 2px; }
+}

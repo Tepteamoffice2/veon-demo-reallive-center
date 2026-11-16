@@ -1,0 +1,46 @@
+---
+import "@fontsource-variable/ysabeau-office";
+import "@fontsource-variable/sofia-sans-condensed";
+import "../styles/tokens.css";
+import "../styles/global.css";
+import "../styles/site.css";
+import bodyFontUrl from "@fontsource-variable/ysabeau-office/files/ysabeau-office-cyrillic-wght-normal.woff2?url";
+
+interface Props { lang: string; title: string; description: string; canonical?: string; rec?: string; }
+const { lang, title, description, canonical, rec } = Astro.props;
+---
+<!doctype html>
+<html lang={lang} data-rec={rec}>
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add("js")</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="uk_UA" />
+    <meta name="theme-color" content="#F1F0F8" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/favicon-180x180.png" />
+    <link rel="preload" href={bodyFontUrl} as="font" type="font/woff2" crossorigin data-rec="P-R006" />
+    <slot name="head" />
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">{lang.startsWith("uk") ? "До змісту" : lang.startsWith("ru") ? "К содержанию" : "Skip to content"}</a>
+    <slot name="header" />
+    <main id="main" data-rec="U-R007"><slot /></main>
+    <slot name="footer" />
+    <slot name="after" />
+    <script src="../scripts/reveal.ts"></script>
+    <script src="../scripts/site.ts"></script>
+  </body>
+</html>
+
+<style is:global>
+  /* Floor 34 next to the document shell: no sideways scroll, sticky header keeps working */
+  html { overflow-x: clip; }
+  body { overflow-x: clip; }
+</style>
